@@ -7,11 +7,21 @@ using System.Threading.Tasks;
 
 namespace Share.Other
 {
-    public enum Status
+    public enum AssignmentStatus
     {
-        [Display(Name = "Nhóm tài khoản")]
-        AppRole = 0,
-        [Display(Name = "Tài khoản")]
-        AppUser = 1
+        [Display(Name = "Nháp")]
+        Draf = 0,
+        [Display(Name = "Công khai")]
+        Published = 1,
+        [Display(Name = "Đóng")]
+        Closed = 2
+    }
+
+    public enum AssignmentType
+    {
+        [Display(Name = "Tự luận")]
+        Essay = 0,
+        [Display(Name = "Trắc nghiệm")]
+        MultipleChoice = 1
     }
 }

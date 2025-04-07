@@ -1,4 +1,7 @@
 
+using AssignmentService.Repository;
+using Microsoft.EntityFrameworkCore;
+
 namespace AssignmentService
 {
     public class Program
@@ -6,11 +9,15 @@ namespace AssignmentService
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            var connectionString = builder.Configuration.GetConnectionString("AssigmentDbConnect");
+            builder.Services.AddDbContext<AssigmentDbContext>(options =>
+                                options.UseSqlServer(connectionString)
+                                       .EnableSensitiveDataLogging()
+                                       .EnableDetailedErrors()
+                            );
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
