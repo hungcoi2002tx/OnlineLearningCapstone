@@ -8,8 +8,8 @@ namespace Share.DTO
 {
     public class AssignmentAttachmentDto
     {
-        public Guid AttachmentId { get; set; }
-        public Guid AssignmentId { get; set; }
+        public string AttachmentId { get; set; }
+        public string AssignmentId { get; set; }
         public string FileUrl { get; set; }
         public string FileType { get; set; }
         public DateTime UploadedAt { get; set; }

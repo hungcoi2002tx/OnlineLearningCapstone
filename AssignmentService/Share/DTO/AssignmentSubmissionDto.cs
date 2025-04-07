@@ -8,9 +8,9 @@ namespace Share.DTO
 {
     public class AssignmentSubmissionDto
     {
-        public Guid SubmissionId { get; set; }
-        public Guid AssignmentId { get; set; }
-        public Guid StudentId { get; set; }
+        public string SubmissionId { get; set; }
+        public string AssignmentId { get; set; }
+        public string StudentId { get; set; }
         public DateTime SubmittedAt { get; set; }
         public string? Content { get; set; }
         public string? Status { get; set; }

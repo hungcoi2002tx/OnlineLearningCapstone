@@ -169,6 +169,9 @@ namespace AssignmentService.Repository
                       .HasMaxLength(2000)
                       .IsUnicode(true);
 
+                entity.Property(e => e.QuizAnswer)
+                    .IsUnicode(true);
+
                 entity.HasOne(e => e.Assignment)
                       .WithMany(a => a.Submissions)
                       .HasForeignKey(e => e.AssignmentId)

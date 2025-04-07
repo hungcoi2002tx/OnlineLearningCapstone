@@ -8,11 +8,11 @@ namespace Share.DTO
 {
     public class AssignmentCommentDto
     {
-        public Guid CommentId { get; set; }
-        public Guid AssignmentId { get; set; }
-        public Guid UserId { get; set; }
+        public string CommentId { get; set; }
+        public string AssignmentId { get; set; }
+        public string UserId { get; set; }
         public string Content { get; set; }
-        public Guid? ParentCommentId { get; set; }
+        public string? ParentCommentId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

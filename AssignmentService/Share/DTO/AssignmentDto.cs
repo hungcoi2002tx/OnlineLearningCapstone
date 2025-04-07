@@ -8,12 +8,12 @@ namespace Share.DTO
 {
     public class AssignmentDto
     {
-        public Guid AssignmentId { get; set; }
+        public string AssignmentId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Deadline { get; set; }
-        public Guid TeacherId { get; set; }
-        public Guid ClassroomId { get; set; }
+        public string TeacherId { get; set; }
+        public string ClassroomId { get; set; }
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
