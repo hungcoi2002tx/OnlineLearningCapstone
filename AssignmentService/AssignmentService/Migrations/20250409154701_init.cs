@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AssignmentService.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +15,14 @@ namespace AssignmentService.Migrations
                 name: "Assignments",
                 columns: table => new
                 {
-                    AssignmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssignmentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     Deadline = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "GETDATE()"),
                     TeacherId = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     ClassroomId = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, defaultValue: "Draf"),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
@@ -34,8 +35,8 @@ namespace AssignmentService.Migrations
                 name: "AssignmentAttachments",
                 columns: table => new
                 {
-                    AttachmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AssignmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AttachmentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AssignmentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FileUrl = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     FileType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     UploadedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
@@ -55,11 +56,11 @@ namespace AssignmentService.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AssignmentId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 255, nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 255, nullable: false),
+                    CommentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AssignmentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
-                    ParentCommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ParentCommentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
@@ -80,17 +81,37 @@ namespace AssignmentService.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    AssignmentId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Question_Assignment",
+                        column: x => x.AssignmentId,
+                        principalTable: "Assignments",
+                        principalColumn: "AssignmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Submissions",
                 columns: table => new
                 {
-                    SubmissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AssignmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SubmissionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AssignmentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubmittedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     Content = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Grade = table.Column<double>(type: "float", nullable: true),
-                    Feedback = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false)
+                    Feedback = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    QuizAnswer = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -104,11 +125,31 @@ namespace AssignmentService.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
+                    QuestionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answer_Question",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubmissionAttachments",
                 columns: table => new
                 {
-                    AttachmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubmissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AttachmentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SubmissionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FileUrl = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: false),
                     FileType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UploadedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
@@ -123,6 +164,11 @@ namespace AssignmentService.Migrations
                         principalColumn: "SubmissionId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_QuestionId",
+                table: "Answers",
+                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssignmentAttachments_AssignmentId",
@@ -140,6 +186,11 @@ namespace AssignmentService.Migrations
                 column: "ParentCommentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Questions_AssignmentId",
+                table: "Questions",
+                column: "AssignmentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SubmissionAttachments_SubmissionId",
                 table: "SubmissionAttachments",
                 column: "SubmissionId");
@@ -154,6 +205,9 @@ namespace AssignmentService.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Answers");
+
+            migrationBuilder.DropTable(
                 name: "AssignmentAttachments");
 
             migrationBuilder.DropTable(
@@ -161,6 +215,9 @@ namespace AssignmentService.Migrations
 
             migrationBuilder.DropTable(
                 name: "SubmissionAttachments");
+
+            migrationBuilder.DropTable(
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "Submissions");

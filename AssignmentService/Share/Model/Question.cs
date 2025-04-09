@@ -11,7 +11,7 @@ namespace Share.Model
         public string Id { get; set; }
         public string Content { get; set; }
 
-        public int AssignmentId { get; set; }
+        public string AssignmentId { get; set; }
         public Assignment Assignment { get; set; }
 
         public ICollection<Answer> Answers { get; set; }

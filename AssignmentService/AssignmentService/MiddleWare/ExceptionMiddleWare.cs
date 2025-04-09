@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Share.Other;
 using Share.Other.ExceptionModel;
 
 namespace AssignmentService.MiddlerWare

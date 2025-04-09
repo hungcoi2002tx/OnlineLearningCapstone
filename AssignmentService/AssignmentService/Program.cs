@@ -1,4 +1,5 @@
 
+using AssignmentService.MiddlerWare;
 using AssignmentService.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,7 +34,7 @@ namespace AssignmentService
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.MapControllers();
 

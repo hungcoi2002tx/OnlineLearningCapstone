@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Share.Model;
 using Share.Other;
 
@@ -106,7 +105,6 @@ namespace AssignmentService.Repository
                 .HasMaxLength(4000)
                 .IsRequired();
                 comment.Property(c => c.AssignmentId)
-                .HasMaxLength(255)
                 .IsRequired();
                 comment.Property(c => c.UserId)
                 .HasMaxLength(255)
@@ -219,9 +217,70 @@ namespace AssignmentService.Repository
                 entity.ToTable("SubmissionAttachments");
             });
             #endregion
+
+            #region fluent api for Question
+            modelBuilder.Entity<Question>(question =>
+            {
+                question.HasKey(q => q.Id);
+
+                question.Property(q => q.Id)
+                    .ValueGeneratedOnAdd();
+
+                question.Property(q => q.Content)
+                    .IsRequired()
+                    .HasMaxLength(4000);
+
+                question.Property(q => q.AssignmentId)
+                    .IsRequired();
+
+                question.HasOne(q => q.Assignment)
+                    .WithMany(a => a.Questions)
+                    .HasForeignKey(q => q.AssignmentId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Question_Assignment");
+
+                question.HasMany(q => q.Answers)
+                    .WithOne(a => a.Question)
+                    .HasForeignKey(a => a.QuestionId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Question_Answers");
+
+                question.ToTable("Questions");
+            });
+            #endregion
+
+            #region fluent api for Answer
+            modelBuilder.Entity<Answer>(answer =>
+            {
+                answer.HasKey(a => a.Id);
+
+                answer.Property(a => a.Id)
+                      .ValueGeneratedOnAdd();
+
+                answer.Property(a => a.Content)
+                      .IsRequired()
+                      .HasMaxLength(4000);
+
+                answer.Property(a => a.IsCorrect)
+                      .IsRequired();
+
+                answer.Property(a => a.QuestionId)
+                      .IsRequired();
+
+                answer.HasOne(a => a.Question)
+                      .WithMany(q => q.Answers)
+                      .HasForeignKey(a => a.QuestionId)
+                      .OnDelete(DeleteBehavior.Cascade)
+                      .HasConstraintName("FK_Answer_Question");
+
+                answer.ToTable("Answers");
+            });
+            #endregion
         }
 
         public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Question> Questions { get; set; }
         public DbSet<AssignmentAttachment> AssignmentAttachments { get; set; }
         public DbSet<AssignmentComment> AssignmentComments { get; set; }
         public DbSet<AssignmentSubmission> AssignmentSubmissions { get; set; }

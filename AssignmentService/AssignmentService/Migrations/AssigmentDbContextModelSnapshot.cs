@@ -22,11 +22,36 @@ namespace AssignmentService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Share.Model.Answer", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("QuestionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answers", (string)null);
+                });
+
             modelBuilder.Entity("Share.Model.Assignment", b =>
                 {
-                    b.Property<Guid>("AssignmentId")
+                    b.Property<string>("AssignmentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ClassroomId")
                         .IsRequired()
@@ -67,6 +92,10 @@ namespace AssignmentService.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
@@ -79,12 +108,13 @@ namespace AssignmentService.Migrations
 
             modelBuilder.Entity("Share.Model.AssignmentAttachment", b =>
                 {
-                    b.Property<Guid>("AttachmentId")
+                    b.Property<string>("AttachmentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("AssignmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AssignmentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FileType")
                         .IsRequired()
@@ -110,13 +140,13 @@ namespace AssignmentService.Migrations
 
             modelBuilder.Entity("Share.Model.AssignmentComment", b =>
                 {
-                    b.Property<Guid>("CommentId")
+                    b.Property<string>("CommentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("AssignmentId")
-                        .HasMaxLength(255)
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AssignmentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -128,17 +158,18 @@ namespace AssignmentService.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<Guid?>("ParentCommentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ParentCommentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("CommentId");
 
@@ -151,12 +182,13 @@ namespace AssignmentService.Migrations
 
             modelBuilder.Entity("Share.Model.AssignmentSubmission", b =>
                 {
-                    b.Property<Guid>("SubmissionId")
+                    b.Property<string>("SubmissionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("AssignmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AssignmentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -173,13 +205,18 @@ namespace AssignmentService.Migrations
                     b.Property<double?>("Grade")
                         .HasColumnType("float");
 
+                    b.Property<string>("QuizAnswer")
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SubmittedAt")
                         .ValueGeneratedOnAdd()
@@ -193,11 +230,33 @@ namespace AssignmentService.Migrations
                     b.ToTable("Submissions", (string)null);
                 });
 
+            modelBuilder.Entity("Share.Model.Question", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AssignmentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.ToTable("Questions", (string)null);
+                });
+
             modelBuilder.Entity("Share.Model.SubmissionAttachment", b =>
                 {
-                    b.Property<Guid>("AttachmentId")
+                    b.Property<string>("AttachmentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FileType")
                         .IsRequired()
@@ -210,8 +269,9 @@ namespace AssignmentService.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(1000)");
 
-                    b.Property<Guid>("SubmissionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("SubmissionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UploadedAt")
                         .ValueGeneratedOnAdd()
@@ -223,6 +283,18 @@ namespace AssignmentService.Migrations
                     b.HasIndex("SubmissionId");
 
                     b.ToTable("SubmissionAttachments", (string)null);
+                });
+
+            modelBuilder.Entity("Share.Model.Answer", b =>
+                {
+                    b.HasOne("Share.Model.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Answer_Question");
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Share.Model.AssignmentAttachment", b =>
@@ -269,6 +341,18 @@ namespace AssignmentService.Migrations
                     b.Navigation("Assignment");
                 });
 
+            modelBuilder.Entity("Share.Model.Question", b =>
+                {
+                    b.HasOne("Share.Model.Assignment", "Assignment")
+                        .WithMany("Questions")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Question_Assignment");
+
+                    b.Navigation("Assignment");
+                });
+
             modelBuilder.Entity("Share.Model.SubmissionAttachment", b =>
                 {
                     b.HasOne("Share.Model.AssignmentSubmission", "Submission")
@@ -287,6 +371,8 @@ namespace AssignmentService.Migrations
 
                     b.Navigation("Comments");
 
+                    b.Navigation("Questions");
+
                     b.Navigation("Submissions");
                 });
 
@@ -298,6 +384,11 @@ namespace AssignmentService.Migrations
             modelBuilder.Entity("Share.Model.AssignmentSubmission", b =>
                 {
                     b.Navigation("Attachments");
+                });
+
+            modelBuilder.Entity("Share.Model.Question", b =>
+                {
+                    b.Navigation("Answers");
                 });
 #pragma warning restore 612, 618
         }
