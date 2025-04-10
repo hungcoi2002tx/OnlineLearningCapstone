@@ -2,6 +2,7 @@
 using AssignmentService.MiddlerWare;
 using AssignmentService.Repository;
 using Microsoft.EntityFrameworkCore;
+using Share.Extentions;
 
 namespace AssignmentService
 {
@@ -17,6 +18,9 @@ namespace AssignmentService
                                        .EnableDetailedErrors()
                             );
             // Add services to the container.
+            builder.Services.AddAutoMapper()
+                .AddRepositories()
+                .AddServices();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
