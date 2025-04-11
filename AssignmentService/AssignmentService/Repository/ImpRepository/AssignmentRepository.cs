@@ -6,11 +6,16 @@ namespace AssignmentService.Repository.ImpRepository
     {
         public AssignmentRepository(AssigmentDbContext context) : base(context)
         {
+
         }
-        public async Task<bool> CreateExamAsync()
+
+        public async Task<bool> CreateExamAsync(Assignment assignment)
         {
             try
             {
+                OpenTransaction();
+                await _context.Assignments.AddAsync(assignment);
+                await _context.SaveChangesAsync();
                 await CommitTransactionAsync();
                 return true;
             }

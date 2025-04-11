@@ -51,13 +51,13 @@ namespace Share.Extentions
             // Kiểm tra tệp đính kèm (nếu cần)
             if (model.Attachments != null && model.Attachments.Length > 0)
             {
-                var allowedExtensions = new[] { ".pdf", ".docx", ".xlsx" };
+                //var allowedExtensions = new[] { ".pdf", ".docx", ".xlsx" };
                 var extension = System.IO.Path.GetExtension(model.Attachments.FileName).ToLower();
 
-                if (!Array.Exists(allowedExtensions, e => e == extension))
-                {
-                    errors.Add("Attachment must be a PDF, DOCX, or XLSX file.");
-                }
+                //if (!Array.Exists(allowedExtensions, e => e == extension))
+                //{
+                //    errors.Add("Attachment must be a PDF, DOCX, or XLSX file.");
+                //}
             }
 
             return errors;

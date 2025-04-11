@@ -1,4 +1,5 @@
 
+using AssignmentService.Helper;
 using AssignmentService.MiddlerWare;
 using AssignmentService.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,9 @@ namespace AssignmentService
                                        .EnableDetailedErrors()
                             );
             // Add services to the container.
-            builder.Services.AddAutoMapper()
-                .AddRepositories()
-                .AddServices();
+            builder.Services.AddAutoMapper();
+            builder.Services.AddRepository();
+            builder.Services.AddService();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

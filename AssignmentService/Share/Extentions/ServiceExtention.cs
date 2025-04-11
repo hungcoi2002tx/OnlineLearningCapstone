@@ -3,6 +3,7 @@ using Share.Model;
 using Share.RequestModel;
 using System.Net.Sockets;
 using System.Reflection;
+using AutoMapper;
 
 namespace Share.Extentions
 {
@@ -17,43 +18,9 @@ namespace Share.Extentions
             services.AddAutoMapper(typeof(MapperConfig));
             return services;
         }
-
-        public static IServiceCollection AddRepositories(this IServiceCollection services)
-        {
-            var assembly = Assembly.GetAssembly(typeof(ServiceExtention));
-            var classes = assembly.ExportedTypes
-               .Where(a => !a.Name.StartsWith("I") && a.Name.EndsWith("Repository") && (a.Name != "Repository"));
-            foreach (Type implement in classes)
-            {
-                foreach (var @interface in implement.GetInterfaces())
-                {
-                    services.AddScoped(@interface, implement);
-                }
-            }
-
-            return services;
-        }
-
-        public static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            var assembly = Assembly.GetAssembly(typeof(ServiceExtention));
-            var classes = assembly.ExportedTypes.Where(a => !a.Name.StartsWith("I") && a.Name.EndsWith("Service"));
-
-            foreach (Type implement in classes)
-            {
-                foreach (var @interface in implement.GetInterfaces())
-                {
-                    services.AddScoped(@interface, implement);
-                }
-            }
-
-            return services;
-        }
     }
 
-
-
-    public class MapperConfig : AutoMapper.Profile
+    public class MapperConfig : Profile
     {
         public MapperConfig()
         {
@@ -72,7 +39,9 @@ namespace Share.Extentions
                 }
             }
 
-            CreateMap<Assignment, ExamRequestModel>().ReverseMap();
+            CreateMap<Assignment, ExamRequestModel>()
+                .ForMember(x => x)
+                .ReverseMap();
         }
     }
 }

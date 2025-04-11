@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Share.RequestModel
 {
-    public class ExamRequestModel
+    public class ExamRequestModel1
     {
         public string Title { get; set; }
         public string Description { get; set; }

@@ -24,7 +24,7 @@ namespace AssignmentService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAssignmentAsync([FromBody] ExamRequestModel exam)
+        public async Task<IActionResult> CreateAssignmentAsync([FromForm] ExamRequestModel exam)
         {
             var result = await _assignmentService.CreateExamAsync(exam);
             return StatusCode((int)result.StatusCode, result);

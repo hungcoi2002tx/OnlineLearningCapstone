@@ -1,25 +1,28 @@
-﻿using Share.DTO;
+﻿using AssignmentService.Repository;
+using Share.DTO;
 using Share.Other;
 using Share.RequestModel;
 using Share.Extentions;
 using Share.Model;
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace AssignmentService.Service.ImpService
 {
     public class AssigmentService : IAssigmentService
     {
-        readonly IAssigmentService _assignmentRepository;
+        readonly IAssignmentRepository _assignmentRepository;
         readonly string _attachmentPath;
         readonly IMapper _mapper;
 
-        public AssigmentService(IAssigmentService assignmentRepository,
+        public AssigmentService(
             IConfiguration configuration,
-            IMapper mapper)
+            IMapper mapper,
+            IAssignmentRepository assignmentRepository)
         {
-            _assignmentRepository = assignmentRepository;
             _attachmentPath = configuration["UrlFolder:Attachment"];
             _mapper = mapper;
+            _assignmentRepository = assignmentRepository;
         }
 
         public async Task<ServiceResult> CreateExamAsync(ExamRequestModel exam)
@@ -68,8 +71,20 @@ namespace AssignmentService.Service.ImpService
                 assignment.Type = AssignmentType.Essay.ToString();
                 #endregion
 
+                #region Save Attachment
+                var result = await _assignmentRepository.CreateExamAsync(assignment);
+                #endregion
 
-
+                if (!result)
+                {
+                    throw new Exception();
+                }
+                return new ServiceResult
+                {
+                    StatusCode = System.Net.HttpStatusCode.Created,
+                    Success = true,
+                    Data = null
+                };
             }
             catch (Exception ex)
             {
