@@ -63,7 +63,15 @@ namespace AssignmentService.Service.ImpService
                 #endregion
 
                 #region Create Assignment   
-                Assignment assignment = _mapper.Map<Assignment>(exam);
+                Assignment assignment = new Assignment()
+                {
+                    Title = exam.Title,
+                    Description = exam.Description,
+                    Deadline = exam.Deadline,
+                    TeacherId = exam.TeacherId,
+                    ClassroomId = exam.ClassroomId,
+                    Status = exam.Status,
+                };
                 assignment.AssignmentId = Guid.NewGuid().ToString();
                 assignment.CreatedAt = DateTime.Now;
                 assignment.UpdatedAt = DateTime.Now;

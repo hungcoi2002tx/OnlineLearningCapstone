@@ -4,6 +4,7 @@ using Share.RequestModel;
 using System.Net.Sockets;
 using System.Reflection;
 using AutoMapper;
+using Share.Other;
 
 namespace Share.Extentions
 {
@@ -39,8 +40,11 @@ namespace Share.Extentions
                 }
             }
 
-            CreateMap<Assignment, ExamRequestModel>()
-                .ForMember(x => x)
+            CreateMap<ExamRequestModel, Assignment>()
+                .ForMember(x => x.AssignmentId, opt => opt.MapFrom(src => Guid.NewGuid()))
+                .ForMember(x => x.CreatedAt, opt => opt.MapFrom(src => DateTime.Now))
+                .ForMember(x => x.UpdatedAt, opt => opt.MapFrom(src => DateTime.Now))
+                .ForMember(x => x.Type, opt => opt.MapFrom(src => AssignmentType.Essay.ToString()))
                 .ReverseMap();
         }
     }

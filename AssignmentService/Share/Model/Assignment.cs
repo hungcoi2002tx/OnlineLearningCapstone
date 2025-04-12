@@ -20,7 +20,7 @@ namespace Share.Model
         public DateTime UpdatedAt { get; set; } = DateTime.Now; // Thời gian update
 
         // Navigation properties
-        public ICollection<AssignmentAttachment> Attachments { get; set; }
+        public ICollection<AssignmentAttachment>? Attachments { get; set; }
         public ICollection<AssignmentComment> Comments { get; set; }
         public ICollection<AssignmentSubmission> Submissions { get; set; }
         public ICollection<Question>? Questions { get; set; }
