@@ -46,6 +46,13 @@ namespace Share.Extentions
                 .ForMember(x => x.UpdatedAt, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(x => x.Type, opt => opt.MapFrom(src => AssignmentType.Essay.ToString()))
                 .ReverseMap();
+
+            CreateMap<QuizRequestDto, Assignment>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow));
+
+            CreateMap<CreateQuestionDto, Question>();
+            CreateMap<CreateAnswerDto, Answer>();
         }
     }
 }

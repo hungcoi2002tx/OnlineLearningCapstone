@@ -100,7 +100,32 @@ namespace AssignmentService.Service.ImpService
                 {
                     StatusCode = System.Net.HttpStatusCode.InternalServerError,
                     Success = false,
-                    Data = "Lỗi server"
+                    Data = "Lỗi server",
+                    DevMsg = ex.Message
+                };
+            }
+        }
+
+        public async Task<ServiceResult> CreateQuizAsync(QuizRequestDto quizDto)
+        {
+            try
+            {
+                var assignment = _mapper.Map<Assignment>(quizDto);
+                return new ServiceResult
+                {
+                    StatusCode = System.Net.HttpStatusCode.Created,
+                    Success = true,
+                    Data = null
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError,
+                    Success = false,
+                    Data = "Lỗi server",
+                    DevMsg = ex.Message
                 };
             }
         }

@@ -7,5 +7,6 @@ namespace AssignmentService.Service
     public interface IAssigmentService
     {
         Task<ServiceResult> CreateExamAsync(ExamRequestModel assignmentDto);
+        Task<ServiceResult> CreateQuizAsync(QuizRequestDto quizDto);
     }
 }
