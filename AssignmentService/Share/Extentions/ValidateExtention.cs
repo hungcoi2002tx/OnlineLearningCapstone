@@ -199,5 +199,30 @@ namespace Share.Extentions
             errors = new List<string>();
             return !errors.Any();
         }
+
+        public static bool IsValid(this CreateQuestionRequestModel model, out List<string> errors)
+        {
+            errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(model.Content))
+                errors.Add("Question content is required.");
+
+            if (model.Answers == null || model.Answers.Count < 2)
+                errors.Add("At least two answers are required.");
+
+            if (model.Answers != null && !model.Answers.Any(a => a.IsCorrect))
+                errors.Add("At least one answer must be marked as correct.");
+
+            if (model.Answers != null)
+            {
+                for (int i = 0; i < model.Answers.Count; i++)
+                {
+                    if (string.IsNullOrWhiteSpace(model.Answers[i].Content))
+                        errors.Add($"Answer #{i + 1} content is required.");
+                }
+            }
+
+            return !errors.Any();
+        }
     }
 }
