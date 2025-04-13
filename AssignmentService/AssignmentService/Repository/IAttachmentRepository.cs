@@ -7,5 +7,6 @@ namespace AssignmentService.Repository
     public interface IAttachmentRepository : IRepository<AssignmentAttachment>
     {
         Task<List<AssignmentAttachment>> GetAllByFilterAsync(AttachmentSearch search);
+        Task<bool> UpdateAsync(AssignmentAttachment data);
     }
 }

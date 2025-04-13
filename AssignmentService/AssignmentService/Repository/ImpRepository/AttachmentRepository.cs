@@ -48,7 +48,21 @@ namespace AssignmentService.Repository.ImpRepository
             }
         }
 
-
-
+        public async Task<bool> UpdateAsync(AssignmentAttachment data)
+        {
+            try
+            {
+                OpenTransaction();
+                _context.Attach(data).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                await CommitTransactionAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
     }
 }

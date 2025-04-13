@@ -55,11 +55,13 @@ namespace AssignmentService.Controllers
             return StatusCode((int)result.StatusCode, result);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateExamAsync(string id, [FromQuery] string teacherId, [FromBody] UpdateExamRequestModel updateModel)
-        {
-            var result = await _assignmentService.UpdateAsync(id, teacherId, updateModel);
-            return StatusCode((int)result.StatusCode, result);
-        }
+        #region Draft not delete
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateExamAsync(string id, [FromQuery] string teacherId, [FromBody] UpdateExamRequestModel updateModel)
+        //{
+        //    var result = await _assignmentService.UpdateAsync(id, teacherId, updateModel);
+        //    return StatusCode((int)result.StatusCode, result);
+        //}
+        #endregion
     }
 }

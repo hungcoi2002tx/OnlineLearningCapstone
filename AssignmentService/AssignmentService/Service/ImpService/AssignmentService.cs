@@ -345,9 +345,41 @@ namespace AssignmentService.Service.ImpService
             }
         }
 
-        public async Task<ServiceResult> UpdateAsync(string id, string teacherId, UpdateExamRequestModel updateModel)
-        {
-            throw new NotImplementedException();
-        }
+        #region Draft not Delete
+        //public async Task<ServiceResult> UpdateAsync(string id, string teacherId, UpdateExamRequestModel updateModel)
+        //{
+        //    try
+        //    {
+        //        var entity = await _assignmentRepository.GetAllByFilterAsync(new AssignmentSearch() {
+        //            All = true,
+        //            Id = id,
+        //            TeacherId = teacherId
+        //        });
+        //        if(entity.Item2 == 0)
+        //        {
+        //            return new ServiceResult
+        //            {
+        //                StatusCode = System.Net.HttpStatusCode.BadRequest,
+        //                Success = false,
+        //                Data = "Lỗi server",
+        //                DevMsg = "Not exsited entity"
+        //            };
+        //        }
+
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new ServiceResult
+        //        {
+        //            StatusCode = System.Net.HttpStatusCode.InternalServerError,
+        //            Success = false,
+        //            Data = "Lỗi server",
+        //            DevMsg = ex.Message
+        //        };
+        //    }
+        //}
+        #endregion
     }
 }

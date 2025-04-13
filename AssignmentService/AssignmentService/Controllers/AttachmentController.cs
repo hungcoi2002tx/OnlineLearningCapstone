@@ -3,6 +3,7 @@ using AssignmentService.Service.ImpService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Share.Other.SearchModel;
+using Share.RequestModel;
 
 namespace AssignmentService.Controllers
 {
@@ -36,6 +37,13 @@ namespace AssignmentService.Controllers
         public async Task<IActionResult> DeleteAsync(string id)
         {
             var result = await _attachmentService.DeleteAsync(id);
+            return StatusCode((int)result.StatusCode, result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync(string id, [FromForm] UpdateAttachmentRequestModel updateModel)
+        {
+            var result = await _attachmentService.UpdateAsync(id, updateModel);
             return StatusCode((int)result.StatusCode, result);
         }
     }

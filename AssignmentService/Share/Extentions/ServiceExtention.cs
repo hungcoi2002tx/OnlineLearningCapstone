@@ -65,6 +65,9 @@ namespace Share.Extentions
 
             CreateMap<CreateQuestionRequestModel, Question>();
             CreateMap<CreateAnswerRequestModel, Answer>();
+
+            CreateMap<UpdateAttachmentRequestModel, AssignmentAttachment>()
+                .ForMember(dest => dest.UploadedAt, opt => opt.MapFrom(src => DateTime.Now));
         }
     }
 }

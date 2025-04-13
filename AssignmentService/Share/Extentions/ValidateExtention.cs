@@ -70,6 +70,24 @@ namespace Share.Extentions
             return errors;
         }
 
+        public static bool IsValid(this UpdateExamRequestModel model, out List<string> errors)
+        {
+            errors = new List<string>();
+            if (string.IsNullOrWhiteSpace(model.Title))
+                errors.Add("Title is required.");
+            if (string.IsNullOrWhiteSpace(model.Description))
+                errors.Add("Description is required.");
+            if (model.Deadline == default)
+                errors.Add("Deadline must be a valid date.");
+            else if (model.Deadline < DateTime.Now)
+                errors.Add("Deadline cannot be in the past.");
+            if (string.IsNullOrWhiteSpace(model.Status))
+                errors.Add("Status is required.");
+            else if (!Enum.TryParse<AssignmentStatus>(model.Status, true, out var _))
+                errors.Add("Status must be one of the defined AssignmentStatus enum values.");
+            return !errors.Any();
+        }
+
         public static bool IsValid(this QuizRequestDto dto, out List<string> errors)
         {
             errors = new List<string>();
@@ -173,6 +191,12 @@ namespace Share.Extentions
                 errors.Add($"Status must be one of: {allowedValues}");
             }
 
+            return !errors.Any();
+        }
+
+        public static bool IsValid(this UpdateAttachmentRequestModel model, out List<string> errors)
+        {
+            errors = new List<string>();
             return !errors.Any();
         }
     }
