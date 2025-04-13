@@ -7,8 +7,8 @@ namespace AssignmentService.Service
     public interface IQuestionService
     {
         Task<ServiceResult> CreateAsync(string assignmentId, CreateQuestionRequestModel question);
+        Task<ServiceResult> UpdateAsync(string id, UpdateQuestionRequestModel model);
+        Task<ServiceResult> GetAllByFilterAsync(QuestionSearch model);
         //Task<ServiceResult> DeleteAsync(string id);
-        //Task<ServiceResult> GetAllByFilterAsync(AssignmentSearch model);
-        //Task<ServiceResult> UpdateAsync(string id, string teacherId, UpdateAssignmentRequestModel updateModel);
     }
 }

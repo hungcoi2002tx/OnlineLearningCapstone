@@ -22,5 +22,13 @@ namespace AssignmentService.Controllers
             var result = await _questionService.CreateAsync(assignmentId, question);
             return StatusCode((int)result.StatusCode, result);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(string id, [FromBody] UpdateQuestionRequestModel model)
+        {
+            var result = await _questionService.UpdateAsync(id, model);
+
+            return StatusCode((int)result.StatusCode, result);
+        }
     }
 }

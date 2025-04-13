@@ -6,6 +6,7 @@ using Share.Other.SearchModel;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Share.Model;
 using AutoMapper;
+using AssignmentService.Repository.ImpRepository;
 
 namespace AssignmentService.Service.ImpService
 {
@@ -73,6 +74,87 @@ namespace AssignmentService.Service.ImpService
             }
             catch (Exception ex)
 			{
+                return new ServiceResult
+                {
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError,
+                    Success = false,
+                    Data = "Lỗi server",
+                    DevMsg = ex.Message
+                };
+            }
+        }
+
+        public async Task<ServiceResult> GetAllByFilterAsync(QuestionSearch model)
+        {
+            try
+            {
+                var result = await _questionRepository.GetAllByFilterAsync(model);
+                return new ServiceResult
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Success = true,
+                    Data = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError,
+                    Success = false,
+                    Data = "Lỗi server",
+                    DevMsg = ex.Message
+                };
+            }
+        }
+
+        public async Task<ServiceResult> UpdateAsync(string id, UpdateQuestionRequestModel model)
+        {
+            try
+            {
+                #region Valid
+                var isValid = model.IsValid(out var validationErrors);
+                if (!isValid)
+                {
+                    return new ServiceResult
+                    {
+                        StatusCode = System.Net.HttpStatusCode.BadRequest,
+                        Success = false,
+                        Data = validationErrors,
+                        DevMsg = "Validation"
+                    };
+                }
+
+                var question = await _questionRepository.GetAllByFilterAsync(new QuestionSearch()
+                {
+                    Id = id
+                });
+                if (question?.Any() != true)
+                {
+                    return new ServiceResult
+                    {
+                        StatusCode = System.Net.HttpStatusCode.BadRequest,
+                        Success = false,
+                        Data = "Lỗi request",
+                        DevMsg = "Id not exist"
+                    };
+                }
+                #endregion
+                var result = await _questionRepository.UpdateAsync(question.First(), model);
+                if (!result)
+                {
+                    throw new Exception();
+                }
+                return new ServiceResult
+                {
+                    StatusCode = System.Net.HttpStatusCode.Created,
+                    Success = true,
+                    Data = null
+                };
+
+            }
+            catch (Exception ex)
+            {
                 return new ServiceResult
                 {
                     StatusCode = System.Net.HttpStatusCode.InternalServerError,
