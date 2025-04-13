@@ -13,7 +13,7 @@ namespace AssignmentService
         {
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("AssigmentDbConnect");
-            builder.Services.AddDbContext<AssigmentDbContext>(options =>
+            builder.Services.AddDbContext<AssignmentDbContext>(options =>
                                 options.UseSqlServer(connectionString)
                                        .EnableSensitiveDataLogging()
                                        .EnableDetailedErrors()

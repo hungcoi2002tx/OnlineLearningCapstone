@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AssignmentService.Migrations
 {
-    [DbContext(typeof(AssigmentDbContext))]
+    [DbContext(typeof(AssignmentDbContext))]
     [Migration("20250409154701_init")]
     partial class init
     {

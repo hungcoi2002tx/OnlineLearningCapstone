@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Share.RequestModel
 {
-    public class AttachmentDto
+    public class AttachmentRequestModel
     {
         public string FileUrl { get; set; }
         public string FileType { get; set; }

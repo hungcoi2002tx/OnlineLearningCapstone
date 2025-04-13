@@ -11,10 +11,10 @@ namespace Share.RequestModel
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Deadline { get; set; }
-        public int TeacherId { get; set; }
-        public int ClassroomId { get; set; }
-        public string Type { get; set; }
+        public string TeacherId { get; set; }
+        public string ClassroomId { get; set; }
 
-        public List<CreateQuestionDto> Questions { get; set; }
+        public string Status { get; set; }
+        public List<CreateQuestionRequestModel> Questions { get; set; }
     }
 }

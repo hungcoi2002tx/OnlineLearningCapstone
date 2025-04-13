@@ -10,7 +10,7 @@ namespace Share.Other
     public enum AssignmentStatus
     {
         [Display(Name = "Nháp")]
-        Draf = 0,
+        Draft = 0,
         [Display(Name = "Công khai")]
         Published = 1,
         [Display(Name = "Đóng")]
@@ -22,6 +22,6 @@ namespace Share.Other
         [Display(Name = "Tự luận")]
         Essay = 0,
         [Display(Name = "Trắc nghiệm")]
-        MultipleChoice = 1
+        Quiz = 1
     }
 }

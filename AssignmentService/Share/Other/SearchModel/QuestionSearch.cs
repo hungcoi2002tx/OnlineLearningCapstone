@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Share.Other
+namespace Share.Other.SearchModel
 {
-    public class Page
+    public class QuestionSearch
     {
-        public int Index { get; set; }
-        public int Size { get; set; }
+
     }
 }

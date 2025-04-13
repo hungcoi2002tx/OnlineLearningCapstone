@@ -28,7 +28,8 @@ namespace Share.Extentions
             var assembly = Assembly.GetAssembly(typeof(MapperConfig));
             var models = assembly.ExportedTypes.Where(x => x.Namespace.Equals("Share.Model"));
             var dtos = assembly.ExportedTypes.Where(x => x.Namespace.Equals("Share.DTO"));
-
+            var responses = assembly.ExportedTypes.Where(x => x.Namespace.Equals("Share.ResponseModel"));
+            var requests = assembly.ExportedTypes.Where(x => x.Namespace.Equals("Share.RequestModel"));
             foreach (var type in models)
             {
                 CreateMap(type, type).ReverseMap();
@@ -37,6 +38,16 @@ namespace Share.Extentions
                 if (dtoType != null)
                 {
                     CreateMap(type, dtoType).ReverseMap();
+                }
+                var responseType = responses.FirstOrDefault(x => x.Name == type.Name + "Response");
+                if (responseType != null)
+                {
+                    CreateMap(type, responseType).ReverseMap();
+                }
+                var updateResponse = requests.FirstOrDefault(x => x.Name == "Update" + type.Name + "RequestModel");
+                if (updateResponse != null)
+                {
+                    CreateMap(type, updateResponse).ReverseMap();
                 }
             }
 
@@ -48,11 +59,12 @@ namespace Share.Extentions
                 .ReverseMap();
 
             CreateMap<QuizRequestDto, Assignment>()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(_ => AssignmentType.Quiz.ToString()))
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
             .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow));
 
-            CreateMap<CreateQuestionDto, Question>();
-            CreateMap<CreateAnswerDto, Answer>();
+            CreateMap<CreateQuestionRequestModel, Question>();
+            CreateMap<CreateAnswerRequestModel, Answer>();
         }
     }
 }

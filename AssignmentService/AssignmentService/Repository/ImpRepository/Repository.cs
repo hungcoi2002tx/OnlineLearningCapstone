@@ -6,10 +6,10 @@ namespace AssignmentService.Repository.ImpRepository
     public abstract class Repository<T> : IRepository<T> where T : class
     {
         private IDbContextTransaction _transaction;
-        protected readonly AssigmentDbContext _context;
+        protected readonly AssignmentDbContext _context;
         protected DbSet<T> _dbSet { get => _context.Set<T>(); }
 
-        public Repository(AssigmentDbContext context)
+        public Repository(AssignmentDbContext context)
         {
             _context = context;
         }

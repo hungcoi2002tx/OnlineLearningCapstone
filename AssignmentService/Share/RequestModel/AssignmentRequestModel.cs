@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Share.Other
+namespace Share.RequestModel
 {
-    public class Page
+    class AssignmentRequestModel
     {
-        public int Index { get; set; }
-        public int Size { get; set; }
     }
 }

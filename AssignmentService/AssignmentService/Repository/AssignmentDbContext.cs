@@ -4,9 +4,9 @@ using Share.Other;
 
 namespace AssignmentService.Repository
 {
-    public class AssigmentDbContext : DbContext
+    public class AssignmentDbContext : DbContext
     {
-        public AssigmentDbContext(DbContextOptions<AssigmentDbContext> options) : base(options)
+        public AssignmentDbContext(DbContextOptions<AssignmentDbContext> options) : base(options)
         {
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,7 +29,7 @@ namespace AssignmentService.Repository
                 assigment.Property(a => a.Status)
                       .IsRequired()
                       .HasMaxLength(20)
-                      .HasDefaultValue(AssignmentStatus.Draf);
+                      .HasDefaultValue(AssignmentStatus.Draft.ToString());
                 assigment.Property(a => a.CreatedAt)
                       .HasColumnType("datetime")
                       .HasDefaultValueSql("GETDATE()");

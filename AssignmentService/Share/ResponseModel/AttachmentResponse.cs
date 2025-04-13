@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Share.RequestModel
+namespace Share.ResponseModel
 {
-    class AssigmentRequestModel
+    public class AttachmentResponse
     {
     }
 }

@@ -6,11 +6,11 @@ namespace AssignmentService.Repository.ImpRepository
     public class UnitOfWork : IUnitOfWork
     {
         private IDbContextTransaction _transaction;
-        protected readonly AssigmentDbContext _context;
+        protected readonly AssignmentDbContext _context;
         public IAssignmentRepository Assigment { get; }
 
         public UnitOfWork(
-            AssigmentDbContext context)
+            AssignmentDbContext context)
         {
             _context = context;
         }
