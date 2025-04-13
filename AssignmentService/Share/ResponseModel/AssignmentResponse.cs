@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Share.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,7 @@ namespace Share.ResponseModel
         public string? ClassroomId { get; set; }
         public string? Status { get; set; }
         public string? Type { get; set; }
+        List<QuestionDto>? Questions { get; set; }
+        List<AssignmentAttachmentDto>? Attachments { get; set; }
     }
 }

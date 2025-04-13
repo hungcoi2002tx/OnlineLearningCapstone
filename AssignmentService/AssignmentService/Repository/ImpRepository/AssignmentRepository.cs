@@ -74,7 +74,9 @@ namespace AssignmentService.Repository.ImpRepository
                         .Skip((pageNumber - 1) * pageSize)
                         .Take(pageSize);
                 }
-                var data = await query
+                var data = await query.Include(x => x.Attachments)
+                    .Include(x => x.Questions)
+                    .ThenInclude(x => x.Answers)
                     .ToListAsync();
                 #endregion
 

@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using AutoMapper;
 using Share.Other;
+using Share.DTO;
 
 namespace Share.Extentions
 {
@@ -50,7 +51,8 @@ namespace Share.Extentions
                     CreateMap(type, updateResponse).ReverseMap();
                 }
             }
-
+            CreateMap<Question, QuestionDto>().ReverseMap();
+            CreateMap<Answer, AnswerDto>().ReverseMap();
             CreateMap<ExamRequestModel, Assignment>()
                 .ForMember(x => x.AssignmentId, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(x => x.CreatedAt, opt => opt.MapFrom(src => DateTime.Now))
