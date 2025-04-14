@@ -147,7 +147,7 @@ namespace Share.Extentions
             {
                 errors.Add("Status must be one of the defined AssignmentStatus enum values.");
             }
-            if (model.All != true && model.Page == null)
+            if (model.IsAll != true && model.Page == null)
             {
                 errors.Add("Page is required unless All is true.");
             }
@@ -277,6 +277,45 @@ namespace Share.Extentions
                 }
             }
 
+            return !errors.Any();
+        }
+
+        public static bool IsValid(this CreateExamSubmissionRequest model, out List<string> errors)
+        {
+            errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(model.AssignmentId))
+                errors.Add("AssignmentId is required.");
+
+            if (string.IsNullOrWhiteSpace(model.StudentId))
+                errors.Add("StudentId is required.");
+
+            if (model.SubmitDate == default)
+                errors.Add("SubmitDate is required.");
+
+            return !errors.Any();
+        }
+
+        public static bool IsValid(this SubmissionSearch model, out List<string> errors)
+        {
+            errors = new List<string>();
+
+            if (model.Status != null && !Enum.TryParse<SubmissionStatus>(model.Status, true, out var _))
+            {
+                errors.Add("Status must be one of the defined SubmissionStatus enum values.");
+            }
+            if (model.IsAll != true && model.Page == null)
+            {
+                errors.Add("Page is required unless All is true.");
+            }
+
+            if (model.Page != null)
+            {
+                if (model.Page.Index <= 0 || model.Page.Size <= 0)
+                {
+                    errors.Add("Page index and size must be greater than 0.");
+                }
+            }
             return !errors.Any();
         }
     }

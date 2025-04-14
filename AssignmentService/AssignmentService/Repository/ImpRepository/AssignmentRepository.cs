@@ -66,7 +66,7 @@ namespace AssignmentService.Repository.ImpRepository
                 }
                 var total = await query.CountAsync();
 
-                if (search.All != true)
+                if (search.IsAll != true)
                 {
                     var pageNumber = search.Page.Index <= 0 ? 1 : search.Page.Index;
                     var pageSize = search.Page.Size <= 0 ? 10 : search.Page.Size;

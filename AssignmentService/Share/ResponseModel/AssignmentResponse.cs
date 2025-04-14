@@ -17,6 +17,8 @@ namespace Share.ResponseModel
         public string? ClassroomId { get; set; }
         public string? Status { get; set; }
         public string? Type { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public List<QuestionDto>? Questions { get; set; }
         public List<AssignmentAttachmentDto>? Attachments { get; set; }
     }

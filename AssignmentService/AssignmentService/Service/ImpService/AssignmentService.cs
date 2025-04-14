@@ -176,7 +176,7 @@ namespace AssignmentService.Service.ImpService
                 }
                 var data = await _assignmentRepository.GetAllByFilterAsync(new AssignmentSearch()
                 {
-                    All = true,
+                    IsAll = true,
                     Id = id
                 });
                 if (data.Item2 == 0)
@@ -244,8 +244,8 @@ namespace AssignmentService.Service.ImpService
                 {
                     Data = _mapper.Map<List<AssignmentResponse>>(result.Item1),
                     Total = result.Item2,
-                    Index = model.All != true ? model.Page.Index : 0,
-                    Size = model.All != true ? model.Page.Size : 0
+                    Index = model.IsAll != true ? model.Page.Index : 0,
+                    Size = model.IsAll != true ? model.Page.Size : 0
                 };
                 return new ServiceResult
                 {
@@ -295,7 +295,7 @@ namespace AssignmentService.Service.ImpService
                 }
                 var data = await _assignmentRepository.GetAllByFilterAsync(new AssignmentSearch()
                 {
-                    All = true,
+                    IsAll = true,
                     Id = id
                 });
                 if (data.Item2 == 0)

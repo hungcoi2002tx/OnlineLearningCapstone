@@ -4,6 +4,7 @@ using AssignmentService.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssignmentService.Migrations
 {
     [DbContext(typeof(AssignmentDbContext))]
-    partial class AssigmentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250414154457_change not null in content submit")]
+    partial class changenotnullincontentsubmit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,6 +199,7 @@ namespace AssignmentService.Migrations
                         .HasColumnType("nvarchar(4000)");
 
                     b.Property<string>("Feedback")
+                        .IsRequired()
                         .HasMaxLength(2000)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(2000)");

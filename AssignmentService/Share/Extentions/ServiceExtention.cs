@@ -52,8 +52,7 @@ namespace Share.Extentions
                     CreateMap(type, updateResponse).ReverseMap();
                 }
             }
-            CreateMap<Question, QuestionDto>().ReverseMap();
-            CreateMap<Answer, AnswerDto>().ReverseMap();
+
             CreateMap<ExamRequestModel, Assignment>()
                 .ForMember(x => x.AssignmentId, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(x => x.CreatedAt, opt => opt.MapFrom(src => DateTime.Now))
@@ -71,22 +70,7 @@ namespace Share.Extentions
 
             CreateMap<UpdateAttachmentRequestModel, AssignmentAttachment>()
                 .ForMember(dest => dest.UploadedAt, opt => opt.MapFrom(src => DateTime.Now));
-            CreateMap<Assignment, AssignmentResponse>()
-                .ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.Questions))
-                .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src => src.Attachments));
 
-            CreateMap<Assignment, AssignmentResponse>();
-
-            // AssignmentAttachment
-            CreateMap<AssignmentAttachment, AssignmentAttachmentDto>();
-
-            // Answer
-            CreateMap<Answer, AnswerDto>();
-
-            // Question -> QuestionDto
-            CreateMap<Question, QuestionDto>()
-                .ForMember(dest => dest.Assignment, opt => opt.Ignore()) // tránh vòng lặp
-                .ForMember(dest => dest.AssignmentId, opt => opt.MapFrom(src => src.AssignmentId));
         }
     }
 }

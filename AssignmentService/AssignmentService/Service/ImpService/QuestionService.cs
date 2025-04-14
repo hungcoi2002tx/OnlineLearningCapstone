@@ -42,7 +42,7 @@ namespace AssignmentService.Service.ImpService
 
                 var assigment = await _assignmentRepository.GetAllByFilterAsync(new AssignmentSearch()
                 {
-                    All = true,
+                    IsAll = true,
                     Id = assignmentId
                 });
                 if (assigment.Item2 == 0)

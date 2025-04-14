@@ -8,7 +8,7 @@ namespace Share.Other.SearchModel
 {
     public class AssignmentSearch
     {
-        public bool? All { get; set; }
+        public bool? IsAll { get; set; }
         public Page? Page { get; set; }
         public string? Id { get; set; }
         public string? ClassroomId { get; set; }

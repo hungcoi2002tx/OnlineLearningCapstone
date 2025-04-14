@@ -1,6 +1,8 @@
 ﻿using AssignmentService.Service;
+using AssignmentService.Service.ImpService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Share.Other.SearchModel;
 using Share.RequestModel;
 
 namespace AssignmentService.Controllers
@@ -17,9 +19,39 @@ namespace AssignmentService.Controllers
         }
 
         [HttpPost("quiz")]
-        public async Task<IActionResult> CreateQuizSubmission([FromBody] CreateQuizSubmissionRequest model)
+        public async Task<IActionResult> CreateQuizSubmissionAsync([FromBody] CreateQuizSubmissionRequest model)
         {
             var result = await _submissionService.CreateQuizSubmissionAsync(model);
+            return StatusCode((int)result.StatusCode, result);
+        }
+
+        [HttpPost("exam")]
+        public async Task<IActionResult> CreateExamSubmissionAsync([FromForm] CreateExamSubmissionRequest model)
+        {
+            var result = await _submissionService.CreateExamSubmissionAsync(model);
+            return StatusCode((int)result.StatusCode, result);
+        }
+
+        [HttpGet("get-file")]
+        public async Task<IActionResult> GetFileAsync([FromQuery] SubmissionSearch search)
+        {
+            var result = await _submissionService.GetFileAsync(search);
+            var fileName = $"submission-{DateTime.Now:yyyyMMddHHmmss}.zip";
+
+            return File(result, "application/zip", fileName);
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> GetAsync([FromQuery] SubmissionSearch search)
+        {
+            var result = await _submissionService.GetAllBySearch(search);
+            return StatusCode((int)result.StatusCode, result);
+        }
+
+        [HttpPut("grade")]
+        public async Task<IActionResult> GradeAsync([FromBody] GradeRequestModel model)
+        {
+            var result = await _submissionService.GradeAsync(model);
             return StatusCode((int)result.StatusCode, result);
         }
     }
