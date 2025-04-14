@@ -249,5 +249,35 @@ namespace Share.Extentions
 
             return !errors.Any();
         }
+
+        public static bool IsValid(this CreateQuizSubmissionRequest model, out List<string> errors)
+        {
+            errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(model.AssignmentId))
+                errors.Add("AssignmentId is required.");
+
+            if (string.IsNullOrWhiteSpace(model.StudentId))
+                errors.Add("StudentId is required.");
+
+            if (model.SubmitDate == default)
+                errors.Add("SubmitDate is required.");
+
+            if (model.QuizAnswers == null || !model.QuizAnswers.Any())
+                errors.Add("At least one quiz answer is required.");
+            else
+            {
+                foreach (var answer in model.QuizAnswers)
+                {
+                    if (string.IsNullOrWhiteSpace(answer.QuestionId))
+                        errors.Add("QuestionId in QuizAnswers is required.");
+
+                    if (string.IsNullOrWhiteSpace(answer.AnswerId))
+                        errors.Add("AnswerId in QuizAnswers is required.");
+                }
+            }
+
+            return !errors.Any();
+        }
     }
 }

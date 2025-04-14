@@ -24,4 +24,14 @@ namespace Share.Other
         [Display(Name = "Trắc nghiệm")]
         Quiz = 1
     }
+
+    public enum SubmissionStatus
+    {
+        [Display(Name = "Chưa nộp")]
+        NotSubmitted = 0,
+        [Display(Name = "Đã nộp")]
+        Submitted = 1,
+        [Display(Name = "Đã chấm")]
+        Graded = 2
+    }
 }

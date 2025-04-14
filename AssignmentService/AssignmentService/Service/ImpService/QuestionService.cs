@@ -67,8 +67,7 @@ namespace AssignmentService.Service.ImpService
                 return new ServiceResult
                 {
                     StatusCode = System.Net.HttpStatusCode.Created,
-                    Success = true,
-                    Data = null
+                    Success = true
                 };
 
             }
